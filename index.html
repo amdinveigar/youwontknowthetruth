@@ -1,0 +1,205 @@
+<!--
+ВАЖНО:
+Этот файл предназначен ТОЛЬКО для запуска в браузере как index.html.
+Если вы видите ошибку вида:
+  SyntaxError: /index.tsx: Unexpected token (1:0)
+значит среда пытается интерпретировать HTML как TypeScript/TSX.
+Решение: сохранить файл с расширением .html и открыть в браузере
+или разместить его на GitHub Pages.
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>неищитеправду</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #b00000;
+      font-family: "Courier New", monospace;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      animation: noise 0.15s infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes noise {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-1px,1px); }
+      50% { transform: translate(1px,-1px); }
+      75% { transform: translate(-1px,-1px); }
+      100% { transform: translate(1px,1px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .glitch-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-shadow: 1px 0 red, -1px 0 darkred;
+      animation: flicker 3s infinite;
+      max-width: 900px;
+    }
+
+    .glitch-text span {
+      display: inline-block;
+      animation: charFlicker 4s infinite;
+      transition: transform 8s linear;
+    }
+
+    @keyframes charFlicker {
+      0% { opacity: 1; }
+      48% { opacity: 1; }
+      50% { opacity: 0.3; }
+      52% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes flicker {
+      0%,100% { opacity: 1; }
+      45% { opacity: 0.9; }
+      50% { opacity: 0.6; }
+      55% { opacity: 0.85; }
+    }
+
+    .numbers {
+      position: absolute;
+      color: rgba(255,0,0,0.15);
+      font-size: 2rem;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh); }
+      to { transform: translateY(-120vh); }
+    }
+
+    button {
+      margin-top: 40px;
+      padding: 15px 40px;
+      background: transparent;
+      border: 2px solid #700000;
+      color: #700000;
+      font-family: inherit;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: box-shadow 0.1s, transform 0.1s, opacity 0.2s;
+    }
+
+    button.react {
+      box-shadow: 0 0 20px red;
+      transform: translateX(-2px);
+    }
+
+    button.fake-active {
+      opacity: 1;
+      box-shadow: 0 0 25px crimson;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glitch-text" id="glitchText">
+      :*).. Д... :!2%.. 8:12... О... &!!.. @@@.. Б... 7%:?.. Р... 3!9:..О.. %::.. П..О.... :!2%.. 8:12.Ж...А7%:?.. Л... О!9..В.. А...Т7%:?.. Ь... 3!9..
+    </div>
+    <button id="exitBtn" disabled>покинуть вселенную</button>
+  </div>
+
+  <script>
+    const numbers = ["61:61", "16:16", "8:12"];
+    const replacements = { "О": "0", "А": "Λ", "В": "B", "Е": "Ξ" };
+    const corrupt = ["#","%","@","&","?","!"];
+
+    function spawnNumber() {
+      const el = document.createElement("div");
+      el.className = "numbers";
+      el.textContent = numbers[Math.floor(Math.random() * numbers.length)];
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDuration = 6 + Math.random() * 8 + "s";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 15000);
+    }
+    setInterval(spawnNumber, 800);
+
+    const textEl = document.getElementById("glitchText");
+    const originalText = textEl.textContent;
+    textEl.innerHTML = originalText.split("").map(c => `<span data-char="${c}">${c}</span>`).join("");
+
+    const spans = [...textEl.querySelectorAll("span")];
+
+    setInterval(() => {
+      const s = spans[Math.floor(Math.random() * spans.length)];
+      const base = s.dataset.char;
+
+      if (Math.random() < 0.4 && replacements[base]) {
+        s.textContent = replacements[base];
+      } else if (Math.random() < 0.3) {
+        s.textContent = corrupt[Math.floor(Math.random()*corrupt.length)];
+      } else {
+        s.textContent = base;
+      }
+    }, 180);
+
+    function drift() {
+      spans.forEach(s => {
+        const x = (Math.random() - 0.5) * 10;
+        const y = (Math.random() - 0.5) * 6;
+        s.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    }
+    setInterval(drift, 8000);
+    setInterval(drift, 16000);
+
+    const btn = document.getElementById("exitBtn");
+
+    setInterval(() => {
+      if (Math.random() < 0.3) {
+        btn.classList.add("fake-active");
+        setTimeout(() => btn.classList.remove("fake-active"), 600);
+      }
+    }, 5000);
+
+    btn.addEventListener("mouseenter", () => {
+      btn.classList.add("react");
+      setTimeout(() => btn.classList.remove("react"), 120);
+    });
+
+    btn.addEventListener("click", () => {
+      btn.classList.remove("fake-active");
+    });
+  </script>
+</body>
+</html>
