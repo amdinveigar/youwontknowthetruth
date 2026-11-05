@@ -202,6 +202,72 @@ setInterval(() => {
         setTimeout(() => line.remove(), 250);
     }
 }, 900);
+    
+// =====================================
+// PROJECT: YOU WON'T KNOW THE TRUTH
+// MODULE 01: MEMORY
+// =====================================
+
+// Запоминаем количество посещений
+let visits = Number(localStorage.getItem("truth_visits") || 0);
+visits++;
+
+localStorage.setItem("truth_visits", visits);
+
+// Сообщение при возвращении
+if (visits > 1) {
+    setTimeout(() => {
+        message.textContent = "ТЫ ВЕРНУЛСЯ. МЫ ЗНАЛИ.";
+    }, 3000);
+}
+
+// Сообщения при бездействии
+const idleMessages = [
+    "ТЫ ВСЁ ЕЩЁ ЗДЕСЬ?",
+    "МЫ ВИДИМ ТЕБЯ",
+    "НЕ ДЕЛАЙ ВИД, ЧТО НЕ ЗАМЕТИЛ",
+    "ТЫ МОЖЕШЬ ЗАКРЫТЬ ЭТУ СТРАНИЦУ",
+    "МЫ НИКУДА НЕ УШЛИ",
+    "НЕ ОБОРАЧИВАЙСЯ"
+];
+
+let idleTimer;
+let idleIndex = 0;
+
+function resetIdle() {
+    clearTimeout(idleTimer);
+
+    idleTimer = setTimeout(() => {
+        if (count < 6 && !locked) {
+            message.textContent =
+                idleMessages[idleIndex % idleMessages.length];
+
+            idleIndex++;
+        }
+
+        resetIdle();
+    }, 20000);
+}
+
+document.addEventListener("mousemove", resetIdle);
+document.addEventListener("keydown", resetIdle);
+document.addEventListener("click", resetIdle);
+
+resetIdle();
+
+// Иногда меняем название вкладки
+const originalTitle = document.title;
+
+setInterval(() => {
+    if (Math.random() > 0.65) {
+        document.title = "МЫ ЗДЕСЬ";
+        
+        setTimeout(() => {
+            document.title = originalTitle;
+        }, 1800);
+    }
+}, 12000);
+
 </script>
 </body>
 </html>
