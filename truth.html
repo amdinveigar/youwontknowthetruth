@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WE ARE HERE</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #000;
+    color: #780000;
+    font-family: "Courier New", monospace;
+}
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: repeating-linear-gradient(
+        transparent 0px, transparent 2px,
+        rgba(150,0,0,.12) 3px, transparent 4px
+    );
+}
+#symbols {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+.symbol {
+    position: absolute;
+    color: #570000;
+    font-size: 14px;
+    opacity: .5;
+    animation: floatUp linear infinite;
+    text-shadow: 0 0 8px #8b0000;
+}
+@keyframes floatUp {
+    from { transform: translateY(110vh); }
+    to { transform: translateY(-15vh); }
+}
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+    z-index: 3;
+}
+#truth {
+    font-size: clamp(28px, 7vw, 65px);
+    letter-spacing: 8px;
+    color: #a00000;
+    text-shadow: 0 0 15px red;
+    min-height: 90px;
+}
+.subtitle {
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #350000;
+    margin-top: 30px;
+}
+.flash {
+    animation: flash .15s infinite;
+}
+@keyframes flash {
+    0% { opacity: 1; }
+    50% { opacity: .25; }
+    100% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+<div id="symbols"></div>
+
+<div class="center">
+    <div id="truth"></div>
+    <div class="subtitle">МЫ ЖДАЛИ, ПОКА ТЫ НАЖМЁШЬ</div>
+</div>
+
+<script>
+const symbols = document.getElementById("symbols");
+const characters = "010101010101 666 06 13 Я НЕ ТЫ МЫ 001101";
+
+for (let i = 0; i < 90; i++) {
+    const el = document.createElement("div");
+    el.className = "symbol";
+    el.textContent = characters[Math.floor(Math.random() * characters.length)];
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = (8 + Math.random() * 20) + "s";
+    el.style.animationDelay = (-Math.random() * 25) + "s";
+    el.style.fontSize = (10 + Math.random() * 18) + "px";
+    symbols.appendChild(el);
+}
+
+const truth = document.getElementById("truth");
+const phrase = "МЫ УЖЕ ЗДЕСЬ";
+const pool = "010101ЯМЫ#%!?666";
+
+function reveal() {
+    let iteration = 0;
+    const interval = setInterval(() => {
+        truth.textContent = phrase
+            .split("")
+            .map((char, index) => {
+                if (char === " ") return " ";
+                if (index < iteration) return phrase[index];
+                return pool[Math.floor(Math.random() * pool.length)];
+            })
+            .join("");
+
+        iteration += 0.35;
+
+        if (iteration >= phrase.length) {
+            clearInterval(interval);
+            truth.textContent = phrase;
+            truth.classList.add("flash");
+
+            setTimeout(() => {
+                truth.classList.remove("flash");
+                truth.textContent = "";
+                setTimeout(reveal, 1200);
+            }, 3500);
+        }
+    }, 100);
+}
+
+setTimeout(reveal, 1500);
+</script>
+</body>
+</html>
