@@ -132,5 +132,261 @@ function reveal() {
 
 setTimeout(reveal, 1500);
 </script>
+    
+<!-- SECRET TERMINAL — UPDATE 02 -->
+<style>
+#secret-trigger {
+  position: fixed;
+  right: 15px;
+  bottom: 12px;
+  color: #641010;
+  opacity: .12;
+  font: 12px monospace;
+  cursor: pointer;
+  z-index: 9998;
+  transition: opacity .3s;
+}
+#secret-trigger:hover { opacity: .8; }
+
+#secret-terminal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.97);
+  color: #c9c9c9;
+  font-family: "Courier New", monospace;
+  padding: 25px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}
+
+#secret-terminal.active { display: flex; }
+
+.terminal-window {
+  width: min(650px, 100%);
+  height: min(480px, 85vh);
+  border: 1px solid #581010;
+  background: #050505;
+  box-shadow: 0 0 35px rgba(120,0,0,.15);
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.terminal-header {
+  color: #8b1717;
+  border-bottom: 1px solid #351010;
+  padding-bottom: 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+#terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 12px 0;
+}
+
+.terminal-line { margin-bottom: 5px; }
+.terminal-system { color: #8c2424; }
+.terminal-user { color: #eee; }
+.terminal-secret { color: #c51d1d; text-shadow: 0 0 8px red; }
+
+.terminal-input-row {
+  display: flex;
+  border-top: 1px solid #351010;
+  padding-top: 12px;
+  gap: 8px;
+}
+
+#terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ddd;
+  font: 14px "Courier New", monospace;
+  min-width: 0;
+}
+
+.terminal-prompt { color: #8b1717; }
+
+#terminal-close {
+  background: transparent;
+  border: none;
+  color: #642020;
+  cursor: pointer;
+  font: 12px monospace;
+  float: right;
+}
+</style>
+
+<div id="secret-trigger">06</div>
+
+<div id="secret-terminal">
+  <div class="terminal-window">
+    <div class="terminal-header">
+      UNKNOWN CONNECTION
+      <button id="terminal-close">[ CLOSE ]</button>
+    </div>
+
+    <div id="terminal-output"></div>
+
+    <div class="terminal-input-row">
+      <span class="terminal-prompt">&gt;</span>
+      <input id="terminal-input" autocomplete="off"
+        spellcheck="false" placeholder="ВВЕДИТЕ КОМАНДУ...">
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const trigger = document.getElementById("secret-trigger");
+  const terminal = document.getElementById("secret-terminal");
+  const output = document.getElementById("terminal-output");
+  const input = document.getElementById("terminal-input");
+  const close = document.getElementById("terminal-close");
+
+  let unlocked = localStorage.getItem("truth_terminal_unlocked") === "yes";
+  let openedBefore = false;
+  let autonomousTimer = null;
+
+  function print(text, type = "system") {
+    const line = document.createElement("div");
+    line.className = "terminal-line terminal-" + type;
+    line.textContent = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  function openTerminal() {
+    terminal.classList.add("active");
+    input.focus();
+
+    if (!openedBefore) {
+      openedBefore = true;
+      print("ИНИЦИАЛИЗАЦИЯ...");
+      print("ПОДКЛЮЧЕНИЕ УСТАНОВЛЕНО.");
+      print("ИСТОЧНИК: НЕИЗВЕСТЕН.");
+      print(" ");
+      print("ВВЕДИТЕ help ДЛЯ СПИСКА КОМАНД.");
+      
+      autonomousTimer = setTimeout(() => {
+        if (terminal.classList.contains("active")) {
+          print(" ");
+          print("...ТЫ ДОЛГО НЕ ПИСАЛ.", "secret");
+        }
+      }, 45000);
+    }
+  }
+
+  function closeTerminal() {
+    terminal.classList.remove("active");
+    input.blur();
+    clearTimeout(autonomousTimer);
+  }
+
+  trigger.addEventListener("click", openTerminal);
+  close.addEventListener("click", closeTerminal);
+
+  document.addEventListener("keydown", (e) => {
+    if (
+      (e.key === "~" || e.code === "Backquote") &&
+      !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
+    ) {
+      e.preventDefault();
+      openTerminal();
+    }
+
+    if (e.key === "Escape" && terminal.classList.contains("active")) {
+      closeTerminal();
+    }
+  });
+
+  function processCommand(raw) {
+    const command = raw.trim().toLowerCase();
+
+    if (!command) return;
+
+    print("> " + raw, "user");
+
+    switch (command) {
+      case "help":
+        print("ДОСТУПНЫЕ КОМАНДЫ:");
+        print("who  — ИДЕНТИФИКАЦИЯ");
+        print("where — МЕСТОПОЛОЖЕНИЕ");
+        print("exit — ЗАВЕРШЕНИЕ СЕАНСА");
+        print(" ");
+        print("ОСТАЛЬНОЕ ТЕБЕ НЕ НУЖНО.");
+        break;
+
+      case "who":
+        print("МЫ.", "secret");
+        print("НАС НЕ ДОЛЖНО БЫТЬ.");
+        break;
+
+      case "where":
+        print("РЯДОМ.", "secret");
+        print("ТЫ ПРОСТО НЕ СМОТРИШЬ В НУЖНУЮ СТОРОНУ.");
+        break;
+
+      case "exit":
+        print("ВЫХОДА НЕТ.", "secret");
+        print("СЕАНС НЕ МОЖЕТ БЫТЬ ЗАВЕРШЁН.");
+        setTimeout(closeTerminal, 1800);
+        break;
+
+      case "6161":
+        if (!unlocked) {
+          unlocked = true;
+          localStorage.setItem("truth_terminal_unlocked", "yes");
+          print(" ");
+          print("СОВПАДЕНИЕ ОБНАРУЖЕНО.", "secret");
+          print("ПЕРВЫЙ ФРАГМЕНТ ВОССТАНОВЛЕН.");
+          print(" ");
+          print("06 / 13 / 03:17");
+          print(" ");
+          print("ТЫ НАШЁЛ ПЕРВОЕ СОВПАДЕНИЕ.", "secret");
+        } else {
+          print("ТЫ УЖЕ ЗНАЕШЬ.");
+          print("НЕ ЗАСТАВЛЯЙ НАС ПОВТОРЯТЬ.");
+        }
+        break;
+
+      default:
+        const responses = [
+          "НЕИЗВЕСТНАЯ КОМАНДА.",
+          "МЫ НЕ ПОНИМАЕМ ТВОЙ ЯЗЫК.",
+          "НЕ ПЫТАЙСЯ НАЙТИ НАС.",
+          "ТЫ УЖЕ СПРАШИВАЛ.",
+          "ЭТО НЕ ТВОЙ ТЕРМИНАЛ.",
+          "ЗАПРОС ПРИНЯТ. ОТВЕТА НЕ БУДЕТ."
+        ];
+
+        print(responses[Math.floor(Math.random() * responses.length)], "secret");
+    }
+
+    print(" ");
+  }
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const value = input.value;
+      input.value = "";
+      processCommand(value);
+    }
+  });
+})();
+</script>
+<!-- END SECRET TERMINAL -->
+
 </body>
 </html>
