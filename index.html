@@ -1,205 +1,206 @@
-<!--
-ВАЖНО:
-Этот файл предназначен ТОЛЬКО для запуска в браузере как index.html.
-Если вы видите ошибку вида:
-  SyntaxError: /index.tsx: Unexpected token (1:0)
-значит среда пытается интерпретировать HTML как TypeScript/TSX.
-Решение: сохранить файл с расширением .html и открыть в браузере
-или разместить его на GitHub Pages.
--->
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>неищитеправду</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      color: #b00000;
-      font-family: "Courier New", monospace;
-      overflow: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(255,255,255,0.03) 0px,
-        rgba(255,255,255,0.03) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      animation: noise 0.15s infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes noise {
-      0% { transform: translate(0,0); }
-      25% { transform: translate(-1px,1px); }
-      50% { transform: translate(1px,-1px); }
-      75% { transform: translate(-1px,-1px); }
-      100% { transform: translate(1px,1px); }
-    }
-
-    .container {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .glitch-text {
-      font-size: 1.2rem;
-      line-height: 1.8;
-      text-shadow: 1px 0 red, -1px 0 darkred;
-      animation: flicker 3s infinite;
-      max-width: 900px;
-    }
-
-    .glitch-text span {
-      display: inline-block;
-      animation: charFlicker 4s infinite;
-      transition: transform 8s linear;
-    }
-
-    @keyframes charFlicker {
-      0% { opacity: 1; }
-      48% { opacity: 1; }
-      50% { opacity: 0.3; }
-      52% { opacity: 1; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes flicker {
-      0%,100% { opacity: 1; }
-      45% { opacity: 0.9; }
-      50% { opacity: 0.6; }
-      55% { opacity: 0.85; }
-    }
-
-    .numbers {
-      position: absolute;
-      color: rgba(255,0,0,0.15);
-      font-size: 2rem;
-      animation: float 10s linear infinite;
-    }
-
-    @keyframes float {
-      from { transform: translateY(100vh); }
-      to { transform: translateY(-120vh); }
-    }
-
-    button {
-      margin-top: 40px;
-      padding: 15px 40px;
-      background: transparent;
-      border: 2px solid #700000;
-      color: #700000;
-      font-family: inherit;
-      font-size: 1rem;
-      letter-spacing: 2px;
-      cursor: not-allowed;
-      opacity: 0.5;
-      transition: box-shadow 0.1s, transform 0.1s, opacity 0.2s;
-    }
-
-    button.react {
-      box-shadow: 0 0 20px red;
-      transform: translateX(-2px);
-    }
-
-    button.fake-active {
-      opacity: 1;
-      box-shadow: 0 0 25px crimson;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOU WON'T KNOW THE TRUTH</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #000;
+    color: #c90000;
+    font-family: "Courier New", monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .15;
+    background: repeating-linear-gradient(
+        transparent 0px, transparent 2px,
+        #650000 3px, transparent 4px
+    );
+    z-index: 5;
+}
+.container { position: relative; z-index: 2; padding: 25px; }
+h1 {
+    font-size: clamp(25px, 5vw, 48px);
+    letter-spacing: 5px;
+    text-shadow: 0 0 12px red;
+    animation: flicker 3s infinite;
+}
+p { color: #750000; letter-spacing: 3px; }
+#timer {
+    font-size: clamp(35px, 8vw, 65px);
+    margin: 35px 0;
+    text-shadow: 0 0 15px red;
+}
+button {
+    background: transparent;
+    color: #d00000;
+    border: 1px solid #850000;
+    padding: 16px 28px;
+    font-family: inherit;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: .2s;
+}
+button:hover {
+    background: #650000;
+    color: white;
+    box-shadow: 0 0 25px red;
+}
+#message {
+    height: 35px;
+    margin-top: 25px;
+    color: #ff0000;
+    letter-spacing: 2px;
+}
+#clicks { color: #420000; font-size: 12px; margin-top: 20px; }
+#blackout {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    font-size: clamp(20px, 5vw, 38px);
+    text-shadow: 0 0 15px red;
+    letter-spacing: 4px;
+}
+#glitch {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: red;
+    opacity: 0;
+    pointer-events: none;
+}
+.glitching { animation: breakScreen .7s forwards; }
+@keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: .3; }
+    97% { opacity: .9; }
+}
+@keyframes breakScreen {
+    0% { opacity: 0; }
+    15% { opacity: .8; transform: translateX(12px); }
+    30% { opacity: .1; transform: translateX(-15px); }
+    45% { opacity: .9; transform: skewY(5deg); }
+    70% { opacity: .5; transform: translateX(8px); }
+    100% { opacity: 1; }
+}
+.noise {
+    position: fixed;
+    height: 2px;
+    width: 100%;
+    left: 0;
+    background: rgba(255,0,0,.5);
+    z-index: 10;
+    pointer-events: none;
+    animation: noiseMove .2s linear;
+}
+@keyframes noiseMove {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="glitch-text" id="glitchText">
-      :*).. Д... :!2%.. 8:12... О... &!!.. @@@.. Б... 7%:?.. Р... 3!9:..О.. %::.. П..О.... :!2%.. 8:12.Ж...А7%:?.. Л... О!9..В.. А...Т7%:?.. Ь... 3!9..
-    </div>
-    <button id="exitBtn" disabled>покинуть вселенную</button>
-  </div>
+<div class="container">
+    <h1>YOU WON'T KNOW THE TRUTH</h1>
+    <p>ТЫ НЕ ДОЛЖЕН БЫЛ ЭТО НАЙТИ</p>
+    <div id="timer">61:61:61</div>
+    <button id="leave">ПОКИНУТЬ ВСЕЛЕННУЮ</button>
+    <div id="message"></div>
+    <div id="clicks">ПОПЫТКИ: 0 / 6</div>
+</div>
 
-  <script>
-    const numbers = ["61:61", "16:16", "8:12"];
-    const replacements = { "О": "0", "А": "Λ", "В": "B", "Е": "Ξ" };
-    const corrupt = ["#","%","@","&","?","!"];
+<div id="blackout">НЕ НАЖИМАЙ ШЕСТОЙ РАЗ</div>
+<div id="glitch"></div>
 
-    function spawnNumber() {
-      const el = document.createElement("div");
-      el.className = "numbers";
-      el.textContent = numbers[Math.floor(Math.random() * numbers.length)];
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.animationDuration = 6 + Math.random() * 8 + "s";
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 15000);
+<script>
+let seconds = 61 * 3600 + 61 * 60 + 61;
+const timer = document.getElementById("timer");
+
+function updateTimer() {
+    if (seconds > 0) seconds--;
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    timer.textContent =
+        String(h).padStart(2, "0") + ":" +
+        String(m).padStart(2, "0") + ":" +
+        String(s).padStart(2, "0");
+}
+setInterval(updateTimer, 1000);
+
+let count = 0;
+let locked = false;
+
+const messages = [
+    "СИГНАЛ ПРИНЯТ",
+    "ТЫ УВЕРЕН?",
+    "КТО-ТО СЛУШАЕТ",
+    "НЕ СЧИТАЙ ВСЛУХ"
+];
+
+const message = document.getElementById("message");
+const clicks = document.getElementById("clicks");
+const blackout = document.getElementById("blackout");
+const glitch = document.getElementById("glitch");
+
+document.getElementById("leave").addEventListener("click", () => {
+    if (locked || count >= 6) return;
+    count++;
+    clicks.textContent = "ПОПЫТКИ: " + count + " / 6";
+
+    if (count <= 4) {
+        message.textContent = messages[count - 1];
     }
-    setInterval(spawnNumber, 800);
 
-    const textEl = document.getElementById("glitchText");
-    const originalText = textEl.textContent;
-    textEl.innerHTML = originalText.split("").map(c => `<span data-char="${c}">${c}</span>`).join("");
-
-    const spans = [...textEl.querySelectorAll("span")];
-
-    setInterval(() => {
-      const s = spans[Math.floor(Math.random() * spans.length)];
-      const base = s.dataset.char;
-
-      if (Math.random() < 0.4 && replacements[base]) {
-        s.textContent = replacements[base];
-      } else if (Math.random() < 0.3) {
-        s.textContent = corrupt[Math.floor(Math.random()*corrupt.length)];
-      } else {
-        s.textContent = base;
-      }
-    }, 180);
-
-    function drift() {
-      spans.forEach(s => {
-        const x = (Math.random() - 0.5) * 10;
-        const y = (Math.random() - 0.5) * 6;
-        s.style.transform = `translate(${x}px, ${y}px)`;
-      });
+    if (count === 5) {
+        locked = true;
+        blackout.style.display = "flex";
+        setTimeout(() => {
+            blackout.style.display = "none";
+            message.textContent = "ТЕПЕРЬ УЖЕ ПОЗДНО";
+            locked = false;
+        }, 1300);
     }
-    setInterval(drift, 8000);
-    setInterval(drift, 16000);
 
-    const btn = document.getElementById("exitBtn");
+    if (count === 6) {
+        locked = true;
+        message.textContent = "ТЫ САМ ЭТОГО ХОТЕЛ";
+        glitch.classList.add("glitching");
+        setTimeout(() => {
+            window.location.href = "truth.html";
+        }, 750);
+    }
+});
 
-    setInterval(() => {
-      if (Math.random() < 0.3) {
-        btn.classList.add("fake-active");
-        setTimeout(() => btn.classList.remove("fake-active"), 600);
-      }
-    }, 5000);
-
-    btn.addEventListener("mouseenter", () => {
-      btn.classList.add("react");
-      setTimeout(() => btn.classList.remove("react"), 120);
-    });
-
-    btn.addEventListener("click", () => {
-      btn.classList.remove("fake-active");
-    });
-  </script>
+// Случайные горизонтальные помехи
+setInterval(() => {
+    if (Math.random() > 0.55) {
+        const line = document.createElement("div");
+        line.className = "noise";
+        line.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(line);
+        setTimeout(() => line.remove(), 250);
+    }
+}, 900);
+</script>
 </body>
 </html>
