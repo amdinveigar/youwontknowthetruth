@@ -345,21 +345,26 @@ setTimeout(reveal, 1500);
         break;
 
       case "6161":
-        if (!unlocked) {
-          unlocked = true;
-          localStorage.setItem("truth_terminal_unlocked", "yes");
-          print(" ");
-          print("СОВПАДЕНИЕ ОБНАРУЖЕНО.", "secret");
-          print("ПЕРВЫЙ ФРАГМЕНТ ВОССТАНОВЛЕН.");
-          print(" ");
-          print("06 / 13 / 03:17");
-          print(" ");
-          print("ТЫ НАШЁЛ ПЕРВОЕ СОВПАДЕНИЕ.", "secret");
-        } else {
-          print("ТЫ УЖЕ ЗНАЕШЬ.");
-          print("НЕ ЗАСТАВЛЯЙ НАС ПОВТОРЯТЬ.");
-        }
-        break;
+case "6161":
+  if (!unlocked) {
+    unlocked = true;
+    localStorage.setItem("truth_terminal_unlocked", "yes");
+  }
+
+  print(" ");
+  print("СОВПАДЕНИЕ ОБНАРУЖЕНО.", "secret");
+  print("ПЕРВЫЙ ФРАГМЕНТ ВОССТАНОВЛЕН.");
+  print(" ");
+  print("06 / 13 / 03:17");
+  print(" ");
+  print("АРХИВ ДОСТУПЕН.", "secret");
+  print("ПОДГОТОВКА ПЕРЕХОДА...");
+
+  setTimeout(() => {
+    window.location.href = "archive.html";
+  }, 5000);
+
+  break;
 
       default:
         const responses = [
