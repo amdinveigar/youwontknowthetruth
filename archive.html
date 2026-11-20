@@ -4,238 +4,434 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>АРХИВ // 6161</title>
+
+<title>V.M.A. // MULTIVERSAL ARCHIVE</title>
 
 <style>
+:root {
+  --bg: #050505;
+  --panel: #0a0a0a;
+  --line: #292020;
+  --red: #a32b2b;
+  --dim: #5c2525;
+  --text: #aaa;
+  --muted: #555;
+  --green: #638568;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 25px 18px;
-  min-height: 100vh;
-  background: #030303;
-  color: #999;
+  background: var(--bg);
+  color: var(--text);
   font-family: "Courier New", monospace;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-body::before {
+body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 10;
+  z-index: 20;
+  opacity: .22;
   background: repeating-linear-gradient(
+    to bottom,
     transparent 0px,
-    rgba(255,255,255,.012) 1px,
-    transparent 2px,
-    transparent 4px
+    transparent 3px,
+    rgba(255,255,255,.025) 4px
   );
 }
 
+button {
+  font-family: inherit;
+}
+
 .container {
-  max-width: 850px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 20px 60px;
 }
 
-.topline {
-  color: #651414;
-  font-size: 11px;
+/* HEADER */
+
+.header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 22px;
+}
+
+.system-label {
+  color: var(--dim);
+  font-size: 10px;
   letter-spacing: 3px;
-  border-bottom: 1px solid #281010;
-  padding-bottom: 13px;
 }
 
-h1 {
-  font-size: clamp(35px, 8vw, 65px);
-  letter-spacing: 9px;
-  color: #a21c1c;
-  text-shadow: 0 0 20px #450000;
-  margin: 35px 0 5px;
+.logo {
+  color: #b42d2d;
+  font-size: clamp(30px, 7vw, 58px);
+  letter-spacing: 5px;
+  margin: 28px 0 5px;
+  text-shadow: 0 0 20px #4b0000;
 }
 
 .subtitle {
+  color: var(--muted);
   font-size: 11px;
-  color: #555;
   line-height: 2;
 }
 
-.status {
-  margin: 28px 0;
+.connection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 25px;
+  font-size: 10px;
+  color: #666;
+}
+
+.connection span {
+  color: var(--green);
+}
+
+/* MAIN GRID */
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.sidebar {
+  border: 1px solid var(--line);
+  background: #080808;
   padding: 15px;
-  border: 1px solid #301010;
-  background: #080303;
-  font-size: 12px;
-  line-height: 2;
+  align-self: start;
 }
 
-.status span {
-  color: #a21c1c;
-}
-
-.section {
-  margin-top: 40px;
-}
-
-.section-title {
-  color: #781919;
-  font-size: 12px;
-  letter-spacing: 3px;
-  border-bottom: 1px solid #271010;
-  padding-bottom: 12px;
+.sidebar-title {
+  color: var(--dim);
+  font-size: 10px;
+  letter-spacing: 2px;
   margin-bottom: 15px;
 }
 
-.file {
-  border: 1px solid #252525;
-  background: #080808;
-  padding: 17px;
-  margin-bottom: 10px;
+.nav-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #777;
+  padding: 12px 9px;
+  font-size: 11px;
   cursor: pointer;
-  transition: .25s;
+  margin-bottom: 4px;
 }
 
-.file:hover {
-  border-color: #781919;
-  background: #0d0505;
+.nav-button:hover,
+.nav-button.active {
+  color: #c14a4a;
+  border-color: #471616;
+  background: #100606;
 }
 
-.file-name {
-  color: #bbb;
-  font-size: 13px;
+.nav-button:disabled {
+  color: #393030;
+  cursor: not-allowed;
+}
+
+.nav-button:disabled:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+.main-panel {
+  min-width: 0;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.panel-heading {
+  color: #a52b2b;
+  font-size: 15px;
+  letter-spacing: 3px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.panel-description {
+  color: #666;
+  font-size: 12px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+/* CARDS */
+
+.card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 17px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  color: #aaa;
+  font-size: 12px;
   letter-spacing: 1px;
 }
 
-.file-meta {
-  margin-top: 8px;
+.card-meta {
   color: #555;
   font-size: 10px;
-  line-height: 1.7;
-}
-
-.file-content {
-  display: none;
-  border-top: 1px solid #351010;
-  margin-top: 15px;
-  padding-top: 15px;
-  color: #888;
-  font-size: 12px;
-  line-height: 2;
-  white-space: pre-wrap;
-  cursor: default;
-}
-
-.file.open .file-content {
-  display: block;
+  margin-top: 8px;
+  line-height: 1.8;
 }
 
 .red {
-  color: #a21c1c;
+  color: var(--red);
 }
 
 .green {
-  color: #527b52;
+  color: var(--green);
 }
 
-.locked {
-  color: #8b1b1b;
+.muted {
+  color: #555;
 }
 
-.secret-file {
-  border-color: #491111;
+/* SUBJECTS */
+
+.subject {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 20px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 15px;
+  margin-bottom: 15px;
 }
 
-#secret-panel {
-  display: none;
-  border: 1px solid #711919;
-  background: #080303;
-  padding: 20px;
-  margin-top: 12px;
-}
-
-#secret-panel.active {
-  display: block;
-}
-
-#secret-panel input {
+.subject img {
   width: 100%;
-  background: #030303;
-  border: 1px solid #441111;
-  color: #ccc;
-  padding: 12px;
-  outline: none;
-  font-family: monospace;
-  margin-top: 12px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid #392020;
+  filter: saturate(.8) contrast(1.1);
 }
 
-#secret-panel button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background: #170606;
-  border: 1px solid #711919;
-  color: #a33;
-  font-family: monospace;
+.subject-info {
+  min-width: 0;
+}
+
+.subject-id {
+  color: var(--dim);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.subject-name {
+  color: #bbb;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.subject-description {
+  color: #777;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.subject-status {
+  display: inline-block;
+  margin-top: 12px;
+  color: #9c3333;
+  border: 1px solid #4c1a1a;
+  padding: 5px 8px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.subject-more {
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid #3c2424;
+  color: #8c4545;
+  padding: 8px 12px;
+  font-size: 10px;
   cursor: pointer;
 }
 
-#secret-panel button:hover {
-  background: #300909;
+.subject-more:hover {
+  background: #160808;
 }
 
-#secret-result {
-  color: #a21c1c;
-  font-size: 12px;
-  margin-top: 15px;
-  line-height: 2;
-  white-space: pre-wrap;
-}
-
-#secret-document {
+.subject-extra {
   display: none;
-  border: 1px solid #441111;
-  padding: 18px;
+  color: #777;
+  border-top: 1px solid var(--line);
   margin-top: 15px;
-  color: #999;
-  font-size: 12px;
+  padding-top: 15px;
+  font-size: 11px;
   line-height: 2;
-  white-space: pre-wrap;
 }
 
-#secret-document.active {
+.subject-extra.open {
   display: block;
 }
 
-.footer {
-  margin: 70px auto 20px;
-  padding-top: 20px;
-  border-top: 1px solid #281010;
-  color: #401111;
-  text-align: center;
+.text-subject {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 17px;
+  margin-bottom: 12px;
+}
+
+.text-subject h3 {
+  color: #aaa;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.text-subject p {
+  color: #666;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+/* EARTH REGISTRY */
+
+.earth {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--line);
+  margin-bottom: 10px;
+  background: var(--panel);
+}
+
+.earth-name {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.earth-description {
+  color: #555;
   font-size: 10px;
+  margin-top: 7px;
+}
+
+.earth-status {
+  color: #8b3434;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+/* LOCKED */
+
+.locked-panel {
+  border: 1px solid #351515;
+  padding: 25px;
+  background: #090404;
+  text-align: center;
+}
+
+.locked-icon {
+  color: #791d1d;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.locked-title {
+  color: #8e2929;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.locked-text {
+  color: #555;
+  font-size: 11px;
+  line-height: 2;
+  margin-top: 15px;
+}
+
+/* SYSTEM LOG */
+
+.log {
+  border-left: 2px solid #471717;
+  padding: 8px 12px;
+  margin: 12px 0;
+  color: #777;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.log-time {
+  color: #7b2929;
+  font-size: 10px;
+}
+
+/* FOOTER */
+
+.footer {
+  border-top: 1px solid var(--line);
+  margin-top: 60px;
+  padding-top: 20px;
+  color: #441919;
+  font-size: 10px;
+  text-align: center;
   line-height: 2.2;
 }
 
-.flicker {
-  animation: flicker 5s infinite;
+.blink {
+  animation: blink 4s infinite;
 }
 
-@keyframes flicker {
+@keyframes blink {
   0%, 94%, 96%, 100% { opacity: 1; }
-  95% { opacity: .25; }
+  95% { opacity: .2; }
 }
 
-#system-message {
-  position: fixed;
-  bottom: 15px;
-  left: 15px;
-  color: #721919;
-  font-size: 10px;
-  z-index: 20;
-  opacity: .6;
+@media (max-width: 650px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+  }
+
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .subject {
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+  }
+
+  .subject-name {
+    font-size: 13px;
+  }
+
+  .connection {
+    gap: 8px;
+  }
 }
 </style>
 </head>
@@ -244,283 +440,558 @@ h1 {
 
 <div class="container">
 
-  <div class="topline">
-    UNKNOWN DATABASE // ACCESS 6161
+  <header class="header">
+    <div class="system-label">
+      VEIGAR MULTIVERSAL ARCHIVE // V.M.A.
+    </div>
+
+    <h1 class="logo blink">V.M.A.</h1>
+
+    <div class="subtitle">
+      MULTIVERSAL RECORD SYSTEM<br>
+      BUILD: 6161.0<br>
+      SYSTEM ORIGIN: UNKNOWN
+    </div>
+
+    <div class="connection">
+      CONNECTION: <span>ESTABLISHED</span>
+      DATABASE: <span>PARTIALLY RECOVERED</span>
+      SECURITY: <span>UNSTABLE</span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- NAVIGATION -->
+
+    <aside class="sidebar">
+      <div class="sidebar-title">
+        DIRECTORY
+      </div>
+
+      <nav>
+        <button class="nav-button active"
+          onclick="showView('root', this)">
+          00 / ROOT
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('earth', this)">
+          01 / EARTH REGISTRY
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('subjects', this)">
+          02 / SUBJECTS
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('incident', this)">
+          03 / INCIDENT 6161
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('sync', this)">
+          04 / SYNCHRONIZATION
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('protocol', this)">
+          05 / COMMUNICATION
+        </button>
+
+        <button class="nav-button"
+          onclick="showView('null', this)">
+          13 / NULL DIRECTORY
+        </button>
+      </nav>
+
+      <div class="card-meta" style="margin-top:20px">
+        SESSION ID: 6161<br>
+        ACCESS LEVEL: LIMITED<br>
+        VISITOR: UNREGISTERED
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="main-panel">
+
+      <!-- ROOT -->
+
+      <section class="view active" id="root">
+        <div class="panel-heading">
+          ROOT DIRECTORY
+        </div>
+
+        <div class="panel-description">
+          Добро пожаловать в систему V.M.A.<br>
+          Часть информации была повреждена во время
+          последней синхронизации.
+          <br><br>
+          Рекомендуется изучить доступные записи
+          перед попыткой восстановления данных.
+        </div>
+
+        <div class="card">
+          <div class="card-title">DATABASE OVERVIEW</div>
+          <div class="card-meta">
+            REGISTERED EARTHS: <span class="red">UNKNOWN</span><br>
+            IDENTIFIED SUBJECTS: <span class="red">05</span><br>
+            ACTIVE CONNECTIONS: <span class="red">01</span><br>
+            TEMPORAL ANOMALIES: <span class="red">13</span><br>
+            MISSING RECORDS: <span class="red">61</span>
+          </div>
+        </div>
+
+        <div class="panel-heading" style="margin-top:30px">
+          RECENT SYSTEM LOGS
+        </div>
+
+        <div class="log">
+          <div class="log-time">03:16:59</div>
+          Новая запись обнаружена.
+        </div>
+
+        <div class="log">
+          <div class="log-time">03:17:00</div>
+          Несоответствие временных данных.
+        </div>
+
+        <div class="log">
+          <div class="log-time">03:17:01</div>
+          Обнаружено повторное обращение к субъекту.
+        </div>
+
+        <div class="log">
+          <div class="log-time">UNKNOWN</div>
+          <span class="red">[ЗАПИСЬ НЕ ИМЕЕТ ИСТОЧНИКА]</span>
+        </div>
+
+        <div class="card" style="margin-top:25px">
+          <div class="card-title red">
+            SYSTEM NOTICE
+          </div>
+          <div class="card-meta">
+            Некоторые записи могут содержать
+            информацию о событиях, которые ещё
+            не произошли в текущей временной линии.
+          </div>
+        </div>
+      </section>
+
+      <!-- EARTH REGISTRY -->
+
+      <section class="view" id="earth">
+        <div class="panel-heading">
+          EARTH REGISTRY
+        </div>
+
+        <div class="panel-description">
+          Реестр обнаруженных пространственно-временных
+          структур. Большая часть идентификаторов
+          не поддаётся восстановлению.
+        </div>
+
+        <div class="earth">
+          <div>
+            <div class="earth-name">EARTH-001</div>
+            <div class="earth-description">
+              Сведения отсутствуют.
+            </div>
+          </div>
+          <div class="earth-status">UNKNOWN</div>
+        </div>
+
+        <div class="earth">
+          <div>
+            <div class="earth-name">EARTH-006</div>
+            <div class="earth-description">
+              Запись частично повреждена.
+            </div>
+          </div>
+          <div class="earth-status">UNSTABLE</div>
+        </div>
+
+        <div class="earth">
+          <div>
+            <div class="earth-name">EARTH-013</div>
+            <div class="earth-description">
+              Источник идентификатора неизвестен.
+            </div>
+          </div>
+          <div class="earth-status">UNKNOWN</div>
+        </div>
+
+        <div class="earth">
+          <div>
+            <div class="earth-name">EARTH-061</div>
+            <div class="earth-description">
+              Последнее соединение не завершено.
+            </div>
+          </div>
+          <div class="earth-status">LOST</div>
+        </div>
+
+        <div class="earth">
+          <div>
+            <div class="earth-name">EARTH-6161</div>
+            <div class="earth-description">
+              <span class="red">[ДАННЫЕ ОТСУТСТВУЮТ]</span>
+            </div>
+          </div>
+          <div class="earth-status">RESTRICTED</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            SEARCH RESULT
+          </div>
+          <div class="card-meta">
+            Найдено совпадений: 5<br>
+            Уникальных идентификаторов: 5<br>
+            Подтверждённых связей: 0
+          </div>
+        </div>
+      </section>
+
+      <!-- SUBJECT DATABASE -->
+
+      <section class="view" id="subjects">
+        <div class="panel-heading">
+          SUBJECT DATABASE
+        </div>
+
+        <div class="panel-description">
+          Каталог зарегистрированных субъектов.
+          Некоторые записи могут относиться
+          к одной и той же сущности.
+        </div>
+
+        <!-- POSTAPOCALYPTIC -->
+
+        <div class="subject">
+          <img src="assets/postapocalyptic.png"
+            alt="Subject 6161">
+
+          <div class="subject-info">
+            <div class="subject-id">
+              SUBJECT // 6161
+            </div>
+
+            <div class="subject-name">
+              POST-APOCALYPTIC
+            </div>
+
+            <div class="subject-description">
+              Обнаружен после масштабного события.
+              Единственный зарегистрированный
+              выживший в соответствующей записи.
+            </div>
+
+            <div class="subject-status">
+              STATUS: ALIVE / UNKNOWN
+            </div>
+
+            <button class="subject-more"
+              onclick="toggleExtra('post-extra')">
+              OPEN RECORD
+            </button>
+
+            <div class="subject-extra" id="post-extra">
+              SUBJECT RECORD:
+
+              Последнее подтверждённое местоположение:
+              UNKNOWN.
+
+              Период наблюдения:
+              6161.
+
+              Примечание:
+              В некоторых документах субъект
+              зарегистрирован до момента своего
+              первого появления.
+
+              [НЕСООТВЕТСТВИЕ ХРОНОЛОГИИ]
+            </div>
+          </div>
+        </div>
+
+        <!-- INSANE -->
+
+        <div class="subject">
+          <img src="assets/insane.png"
+            alt="Subject 013">
+
+          <div class="subject-info">
+            <div class="subject-id">
+              SUBJECT // 013
+            </div>
+
+            <div class="subject-name">
+              INSANE
+            </div>
+
+            <div class="subject-description">
+              Наблюдаются нарушения восприятия.
+              Субъект сообщает о голосах
+              и воспоминаниях неизвестного происхождения.
+            </div>
+
+            <div class="subject-status">
+              STATUS: UNSTABLE
+            </div>
+
+            <button class="subject-more"
+              onclick="toggleExtra('insane-extra')">
+              OPEN RECORD
+            </button>
+
+            <div class="subject-extra" id="insane-extra">
+              SUBJECT RECORD:
+
+              Субъект неоднократно сообщал
+              о присутствии неизвестных лиц.
+
+              В нескольких случаях описанные события
+              совпали с записями других субъектов.
+
+              Субъект утверждает, что никогда
+              не встречал их.
+
+              [ЗАПИСЬ ПРЕРВАНА]
+            </div>
+          </div>
+        </div>
+
+        <!-- INFECTED -->
+
+        <div class="text-subject">
+          <div class="subject-id">SUBJECT // 006</div>
+          <h3>INFECTED</h3>
+          <p>
+            Зафиксированы необъяснимые изменения
+            физиологических показателей.
+            Происхождение изменений неизвестно.
+          </p>
+          <div class="subject-status">
+            STATUS: UNCONFIRMED
+          </div>
+        </div>
+
+        <!-- SAD -->
+
+        <div class="text-subject">
+          <div class="subject-id">SUBJECT // 003</div>
+          <h3>SAD</h3>
+          <p>
+            Субъект описывает повторяющийся сон.
+            Содержание сна содержит события,
+            не зарегистрированные в его временной линии.
+          </p>
+          <div class="subject-status">
+            STATUS: ISOLATED
+          </div>
+        </div>
+
+        <!-- ANGRY -->
+
+        <div class="text-subject">
+          <div class="subject-id">SUBJECT // 009</div>
+          <h3>ANGRY</h3>
+          <p>
+            Субъект сообщает о посторонних голосах.
+            Реакция на них становится агрессивной.
+            Источник сигналов не установлен.
+          </p>
+          <div class="subject-status">
+            STATUS: UNSTABLE
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title red">
+            DATABASE WARNING
+          </div>
+          <div class="card-meta">
+            Количество субъектов не совпадает
+            с количеством доступных записей.
+          </div>
+        </div>
+      </section>
+
+      <!-- INCIDENT 6161 -->
+
+      <section class="view" id="incident">
+        <div class="panel-heading">
+          INCIDENT 6161
+        </div>
+
+        <div class="locked-panel">
+          <div class="locked-icon">[ ! ]</div>
+          <div class="locked-title">
+            ACCESS RESTRICTED
+          </div>
+          <div class="locked-text">
+            ДАННЫЕ О СОБЫТИИ НЕ МОГУТ БЫТЬ
+            ПРЕДСТАВЛЕНЫ В ТЕКУЩЕЙ ВЕРСИИ АРХИВА.
+
+            <br><br>
+
+            ПРИЧИНА: НАРУШЕНИЕ ЦЕЛОСТНОСТИ
+            ВРЕМЕННОЙ ПОСЛЕДОВАТЕЛЬНОСТИ.
+          </div>
+        </div>
+
+        <div class="log">
+          <div class="log-time">RECOVERED FRAGMENT</div>
+          6161 — [НЕПОЛНАЯ ЗАПИСЬ]
+        </div>
+      </section>
+
+      <!-- SYNCHRONIZATION -->
+
+      <section class="view" id="sync">
+        <div class="panel-heading">
+          SYNCHRONIZATION
+        </div>
+
+        <div class="locked-panel">
+          <div class="locked-icon">[ ? ]</div>
+          <div class="locked-title">
+            NO VALID DATA
+          </div>
+          <div class="locked-text">
+            ВОЗМОЖНОСТЬ СИНХРОНИЗАЦИИ
+            НЕ ПОДТВЕРЖДЕНА.
+
+            <br><br>
+
+            ПОСЛЕДНИЙ ЗАПРОС СОДЕРЖАЛ
+            5 РАЗЛИЧНЫХ ИДЕНТИФИКАТОРОВ.
+
+            <br><br>
+
+            ОТВЕТ ПОЛУЧЕН: 1.
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMUNICATION -->
+
+      <section class="view" id="protocol">
+        <div class="panel-heading">
+          COMMUNICATION PROTOCOL
+        </div>
+
+        <div class="locked-panel">
+          <div class="locked-icon">[ X ]</div>
+          <div class="locked-title">
+            PROTOCOL NOT FOUND
+          </div>
+          <div class="locked-text">
+            СИСТЕМА НЕ ОБНАРУЖИЛА
+            ДОСТУПНОГО ПРОТОКОЛА СВЯЗИ.
+
+            <br><br>
+
+            ПРИ ЭТОМ ВХОДЯЩИЕ СИГНАЛЫ
+            ПРОДОЛЖАЮТ ПОСТУПАТЬ.
+          </div>
+        </div>
+      </section>
+
+      <!-- NULL DIRECTORY -->
+
+      <section class="view" id="null">
+        <div class="panel-heading">
+          NULL DIRECTORY
+        </div>
+
+        <div class="locked-panel">
+          <div class="locked-icon blink">013</div>
+
+          <div class="locked-title">
+            DIRECTORY DOES NOT EXIST
+          </div>
+
+          <div class="locked-text">
+            УКАЗАННЫЙ РАЗДЕЛ НЕ ОБНАРУЖЕН.
+
+            <br><br>
+
+            ПРИ ЭТОМ ЗАПРОСЫ К НЕМУ
+            БЫЛИ ЗАФИКСИРОВАНЫ.
+
+            <br><br>
+
+            КОЛИЧЕСТВО ЗАПРОСОВ:
+            <span id="null-count">0</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <h1 class="flicker">АРХИВ</h1>
+  <footer class="footer">
+    V.M.A. // MULTIVERSAL RECORD SYSTEM<br>
+    BUILD 6161.0<br>
+    <span class="blink">SOME RECORDS ARE NOT MEANT TO BE FOUND.</span>
+  </footer>
 
-  <div class="subtitle">
-    ЦЕНТРАЛЬНОЕ ХРАНИЛИЩЕ ДАННЫХ<br>
-    ИДЕНТИФИКАТОР: 6161<br>
-    СОСТОЯНИЕ: ЧАСТИЧНО ВОССТАНОВЛЕНО
-  </div>
-
-  <div class="status">
-    ПОДКЛЮЧЕНИЕ: <span>УСТАНОВЛЕНО</span><br>
-    КОЛИЧЕСТВО ЗАПИСЕЙ: <span>13</span><br>
-    ДОСТУПНЫЕ ЗАПИСИ: <span>6</span><br>
-    НЕИЗВЕСТНЫЕ ОБЪЕКТЫ: <span>1</span><br>
-    ПОСЛЕДНЯЯ АКТИВНОСТЬ: <span>03:17
-    </span>
-  </div>
-
-  <div class="section">
-    <div class="section-title">[ ДОКУМЕНТЫ ]</div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_001 // ПРОТОКОЛ НАБЛЮДЕНИЯ
-      </div>
-      <div class="file-meta">
-        06.06.20XX | ВОССТАНОВЛЕН | ТЕКСТ
-      </div>
-      <div class="file-content">
-НАЧАЛО ЗАПИСИ.
-
-Объект снова посетил страницу.
-
-Поведение соответствует предыдущим наблюдениям.
-Он думает, что нашёл нас самостоятельно.
-
-Это не так.
-
-Мы не появляемся.
-Мы никогда не исчезали.
-
-КОНЕЦ ЗАПИСИ.
-      </div>
-    </div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_002 // НЕИЗВЕСТНЫЙ АБОНЕНТ
-      </div>
-      <div class="file-meta">
-        ДАТА НЕИЗВЕСТНА | ПОВРЕЖДЁН
-      </div>
-      <div class="file-content">
-ВХОДЯЩЕЕ СООБЩЕНИЕ:
-
-«Вы опять оставили свет включённым.
-
-Я видел, как вы стояли у окна.
-
-Но в квартире никого не было».
-
-[СОЕДИНЕНИЕ ПРЕРВАНО]
-
-Последняя строка:
-«ОН УЖЕ ЗНАЕТ».
-      </div>
-    </div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_003 // ЗАПИСЬ 03:17
-      </div>
-      <div class="file-meta">
-        13.06.20XX | ВОССТАНОВЛЕН
-      </div>
-      <div class="file-content">
-03:16 — НИЧЕГО НЕ ПРОИСХОДИТ.
-03:17 — СИГНАЛ ПОЯВЛЯЕТСЯ.
-03:18 — СИГНАЛ ИСЧЕЗАЕТ.
-
-Длительность: 61 секунда.
-
-Источник сигнала не установлен.
-
-ВНИМАНИЕ:
-Повторная попытка регистрации запрещена.
-
-Код события: 0317.
-      </div>
-    </div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_004 // ПОСЛЕДНЯЯ ПЕРЕПИСКА
-      </div>
-      <div class="file-meta">
-        ДАТА: 00.00.20XX | ИСТОЧНИК: UNKNOWN
-      </div>
-      <div class="file-content">
-[03:14] — Ты ещё там?
-[03:15] — Да.
-[03:16] — Они вернулись.
-[03:17] — Кто?
-[03:17] — ...
-
-[СООБЩЕНИЕ УДАЛЕНО]
-
-[03:18] — Не открывай архив.
-      </div>
-    </div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_005 // ОТЧЁТ О СБОЕ
-      </div>
-      <div class="file-meta">
-        СТАТУС: НЕПОЛНЫЙ | ПРИОРИТЕТ: ВЫСОКИЙ
-      </div>
-      <div class="file-content">
-Система зарегистрировала аномалию.
-
-Количество подключений:
-1
-
-Количество зарегистрированных пользователей:
-0
-
-Количество активных наблюдателей:
-<чтобы продолжить, введите 13>
-
-[ОШИБКА ЧТЕНИЯ]
-      </div>
-    </div>
-
-    <div class="file" onclick="toggleFile(this)">
-      <div class="file-name">
-        FILE_006 // ИНСТРУКЦИЯ
-      </div>
-      <div class="file-meta">
-        АВТОР: <span class="red">[УДАЛЁН]</span>
-      </div>
-      <div class="file-content">
-ЕСЛИ ТЫ НАШЁЛ ЭТОТ АРХИВ:
-
-1. Не закрывай его сразу.
-2. Не пытайся восстановить удалённые записи.
-3. Не отвечай на сообщения.
-4. Не ищи тринадцатый файл.
-
-Особенно пункт 4.
-
-Он не должен существовать.
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">[ ЗАБЛОКИРОВАННЫЕ ЗАПИСИ ]</div>
-
-    <div class="file secret-file"
-         onclick="openSecret()">
-      <div class="file-name locked">
-        FILE_013 // ДОСТУП ЗАПРЕЩЁН
-      </div>
-      <div class="file-meta">
-        СТАТУС: ЗАШИФРОВАН | УРОВЕНЬ ДОСТУПА: UNKNOWN
-      </div>
-      <div class="file-content">
-        ФАЙЛ НЕ МОЖЕТ БЫТЬ ПРОЧИТАН.
-        НАЖМИТЕ ДЛЯ ПОПЫТКИ РАСШИФРОВКИ.
-      </div>
-    </div>
-
-    <div id="secret-panel">
-      <div class="red">
-        ТРЕБУЕТСЯ КОД РАСШИФРОВКИ.
-      </div>
-      <div class="file-meta">
-        ПОДСКАЗКА: ИЩИ ВРЕМЯ, КОТОРОЕ ПОВТОРЯЕТСЯ.
-      </div>
-
-      <input
-        id="secret-code"
-        type="text"
-        placeholder="ВВЕДИТЕ КОД..."
-        autocomplete="off"
-      >
-
-      <button onclick="decryptFile()">
-        РАСШИФРОВАТЬ
-      </button>
-
-      <div id="secret-result"></div>
-
-      <div id="secret-document">
-FILE_013 // ВОССТАНОВЛЕН
-
-Если ты читаешь это, значит, ты добрался дальше,
-чем должны были позволить.
-
-Мы оставили тебе эти записи.
-Мы оставили тебе время.
-Мы оставили тебе цифры.
-
-Но ты всё ещё не понял главного.
-
-Ты не первый, кто открыл архив.
-
-Ты просто первый, кто вернулся.
-
-[КОНЕЦ ЗАПИСИ]
-
-P.S.
-
-НЕ ИЩИ НАС ВНУТРИ СИСТЕМЫ.
-
-МЫ СНАРУЖИ.
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    END OF AVAILABLE RECORDS<br>
-    CONNECTION MAY NOT BE TERMINATED<br>
-    <span class="flicker">МЫ ПОМНИМ.</span>
-  </div>
-
-</div>
-
-<div id="system-message">
-  ARCHIVE SESSION // 6161
 </div>
 
 <script>
-function toggleFile(element) {
-  element.classList.toggle("open");
-}
+/* NAVIGATION */
 
-function openSecret() {
-  document.getElementById("secret-panel")
-    .classList.toggle("active");
-}
+function showView(id, button) {
+  document.querySelectorAll(".view").forEach(view => {
+    view.classList.remove("active");
+  });
 
-function decryptFile() {
-  const input = document.getElementById("secret-code");
-  const result = document.getElementById("secret-result");
-  const documentBox = document.getElementById("secret-document");
+  document.querySelectorAll(".nav-button").forEach(btn => {
+    btn.classList.remove("active");
+  });
 
-  const code = input.value.trim();
+  document.getElementById(id).classList.add("active");
+  button.classList.add("active");
 
-  if (code === "0317") {
-    result.textContent =
-      "КОД ПРИНЯТ.\nВОССТАНОВЛЕНИЕ FILE_013...";
+  if (id === "null") {
+    let count = Number(
+      localStorage.getItem("vma_null_requests") || 0
+    );
 
-    documentBox.classList.add("active");
+    count++;
 
-    input.disabled = true;
-    input.style.borderColor = "#527b52";
+    localStorage.setItem("vma_null_requests", count);
 
-    result.style.color = "#527b52";
-  } else {
-    result.textContent =
-      "ОШИБКА.\nНЕВЕРНЫЙ КОД.\nПОПРОБУЙ ЕЩЁ РАЗ.";
-
-    result.style.color = "#a21c1c";
+    document.getElementById("null-count").textContent = count;
   }
 }
 
-document.getElementById("secret-code")
-  .addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      decryptFile();
-    }
-  });
+/* SUBJECT RECORDS */
+
+function toggleExtra(id) {
+  const element = document.getElementById(id);
+  element.classList.toggle("open");
+}
+
+/* VISIT COUNTER */
+
+let visits = Number(
+  localStorage.getItem("vma_visits") || 0
+);
+
+visits++;
+
+localStorage.setItem("vma_visits", visits);
+
+/* NULL DIRECTORY COUNTER */
+
+document.getElementById("null-count").textContent =
+  localStorage.getItem("vma_null_requests") || 0;
+
 </script>
 
 </body>
