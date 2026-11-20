@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АРХИВ // 6161</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px 18px;
+  min-height: 100vh;
+  background: #030303;
+  color: #999;
+  font-family: "Courier New", monospace;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    rgba(255,255,255,.012) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.topline {
+  color: #651414;
+  font-size: 11px;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #281010;
+  padding-bottom: 13px;
+}
+
+h1 {
+  font-size: clamp(35px, 8vw, 65px);
+  letter-spacing: 9px;
+  color: #a21c1c;
+  text-shadow: 0 0 20px #450000;
+  margin: 35px 0 5px;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: #555;
+  line-height: 2;
+}
+
+.status {
+  margin: 28px 0;
+  padding: 15px;
+  border: 1px solid #301010;
+  background: #080303;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.status span {
+  color: #a21c1c;
+}
+
+.section {
+  margin-top: 40px;
+}
+
+.section-title {
+  color: #781919;
+  font-size: 12px;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #271010;
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+.file {
+  border: 1px solid #252525;
+  background: #080808;
+  padding: 17px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.file:hover {
+  border-color: #781919;
+  background: #0d0505;
+}
+
+.file-name {
+  color: #bbb;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.file-meta {
+  margin-top: 8px;
+  color: #555;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.file-content {
+  display: none;
+  border-top: 1px solid #351010;
+  margin-top: 15px;
+  padding-top: 15px;
+  color: #888;
+  font-size: 12px;
+  line-height: 2;
+  white-space: pre-wrap;
+  cursor: default;
+}
+
+.file.open .file-content {
+  display: block;
+}
+
+.red {
+  color: #a21c1c;
+}
+
+.green {
+  color: #527b52;
+}
+
+.locked {
+  color: #8b1b1b;
+}
+
+.secret-file {
+  border-color: #491111;
+}
+
+#secret-panel {
+  display: none;
+  border: 1px solid #711919;
+  background: #080303;
+  padding: 20px;
+  margin-top: 12px;
+}
+
+#secret-panel.active {
+  display: block;
+}
+
+#secret-panel input {
+  width: 100%;
+  background: #030303;
+  border: 1px solid #441111;
+  color: #ccc;
+  padding: 12px;
+  outline: none;
+  font-family: monospace;
+  margin-top: 12px;
+}
+
+#secret-panel button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #170606;
+  border: 1px solid #711919;
+  color: #a33;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+#secret-panel button:hover {
+  background: #300909;
+}
+
+#secret-result {
+  color: #a21c1c;
+  font-size: 12px;
+  margin-top: 15px;
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+#secret-document {
+  display: none;
+  border: 1px solid #441111;
+  padding: 18px;
+  margin-top: 15px;
+  color: #999;
+  font-size: 12px;
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+#secret-document.active {
+  display: block;
+}
+
+.footer {
+  margin: 70px auto 20px;
+  padding-top: 20px;
+  border-top: 1px solid #281010;
+  color: #401111;
+  text-align: center;
+  font-size: 10px;
+  line-height: 2.2;
+}
+
+.flicker {
+  animation: flicker 5s infinite;
+}
+
+@keyframes flicker {
+  0%, 94%, 96%, 100% { opacity: 1; }
+  95% { opacity: .25; }
+}
+
+#system-message {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  color: #721919;
+  font-size: 10px;
+  z-index: 20;
+  opacity: .6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="topline">
+    UNKNOWN DATABASE // ACCESS 6161
+  </div>
+
+  <h1 class="flicker">АРХИВ</h1>
+
+  <div class="subtitle">
+    ЦЕНТРАЛЬНОЕ ХРАНИЛИЩЕ ДАННЫХ<br>
+    ИДЕНТИФИКАТОР: 6161<br>
+    СОСТОЯНИЕ: ЧАСТИЧНО ВОССТАНОВЛЕНО
+  </div>
+
+  <div class="status">
+    ПОДКЛЮЧЕНИЕ: <span>УСТАНОВЛЕНО</span><br>
+    КОЛИЧЕСТВО ЗАПИСЕЙ: <span>13</span><br>
+    ДОСТУПНЫЕ ЗАПИСИ: <span>6</span><br>
+    НЕИЗВЕСТНЫЕ ОБЪЕКТЫ: <span>1</span><br>
+    ПОСЛЕДНЯЯ АКТИВНОСТЬ: <span>03:17
+    </span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">[ ДОКУМЕНТЫ ]</div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_001 // ПРОТОКОЛ НАБЛЮДЕНИЯ
+      </div>
+      <div class="file-meta">
+        06.06.20XX | ВОССТАНОВЛЕН | ТЕКСТ
+      </div>
+      <div class="file-content">
+НАЧАЛО ЗАПИСИ.
+
+Объект снова посетил страницу.
+
+Поведение соответствует предыдущим наблюдениям.
+Он думает, что нашёл нас самостоятельно.
+
+Это не так.
+
+Мы не появляемся.
+Мы никогда не исчезали.
+
+КОНЕЦ ЗАПИСИ.
+      </div>
+    </div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_002 // НЕИЗВЕСТНЫЙ АБОНЕНТ
+      </div>
+      <div class="file-meta">
+        ДАТА НЕИЗВЕСТНА | ПОВРЕЖДЁН
+      </div>
+      <div class="file-content">
+ВХОДЯЩЕЕ СООБЩЕНИЕ:
+
+«Вы опять оставили свет включённым.
+
+Я видел, как вы стояли у окна.
+
+Но в квартире никого не было».
+
+[СОЕДИНЕНИЕ ПРЕРВАНО]
+
+Последняя строка:
+«ОН УЖЕ ЗНАЕТ».
+      </div>
+    </div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_003 // ЗАПИСЬ 03:17
+      </div>
+      <div class="file-meta">
+        13.06.20XX | ВОССТАНОВЛЕН
+      </div>
+      <div class="file-content">
+03:16 — НИЧЕГО НЕ ПРОИСХОДИТ.
+03:17 — СИГНАЛ ПОЯВЛЯЕТСЯ.
+03:18 — СИГНАЛ ИСЧЕЗАЕТ.
+
+Длительность: 61 секунда.
+
+Источник сигнала не установлен.
+
+ВНИМАНИЕ:
+Повторная попытка регистрации запрещена.
+
+Код события: 0317.
+      </div>
+    </div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_004 // ПОСЛЕДНЯЯ ПЕРЕПИСКА
+      </div>
+      <div class="file-meta">
+        ДАТА: 00.00.20XX | ИСТОЧНИК: UNKNOWN
+      </div>
+      <div class="file-content">
+[03:14] — Ты ещё там?
+[03:15] — Да.
+[03:16] — Они вернулись.
+[03:17] — Кто?
+[03:17] — ...
+
+[СООБЩЕНИЕ УДАЛЕНО]
+
+[03:18] — Не открывай архив.
+      </div>
+    </div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_005 // ОТЧЁТ О СБОЕ
+      </div>
+      <div class="file-meta">
+        СТАТУС: НЕПОЛНЫЙ | ПРИОРИТЕТ: ВЫСОКИЙ
+      </div>
+      <div class="file-content">
+Система зарегистрировала аномалию.
+
+Количество подключений:
+1
+
+Количество зарегистрированных пользователей:
+0
+
+Количество активных наблюдателей:
+<чтобы продолжить, введите 13>
+
+[ОШИБКА ЧТЕНИЯ]
+      </div>
+    </div>
+
+    <div class="file" onclick="toggleFile(this)">
+      <div class="file-name">
+        FILE_006 // ИНСТРУКЦИЯ
+      </div>
+      <div class="file-meta">
+        АВТОР: <span class="red">[УДАЛЁН]</span>
+      </div>
+      <div class="file-content">
+ЕСЛИ ТЫ НАШЁЛ ЭТОТ АРХИВ:
+
+1. Не закрывай его сразу.
+2. Не пытайся восстановить удалённые записи.
+3. Не отвечай на сообщения.
+4. Не ищи тринадцатый файл.
+
+Особенно пункт 4.
+
+Он не должен существовать.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">[ ЗАБЛОКИРОВАННЫЕ ЗАПИСИ ]</div>
+
+    <div class="file secret-file"
+         onclick="openSecret()">
+      <div class="file-name locked">
+        FILE_013 // ДОСТУП ЗАПРЕЩЁН
+      </div>
+      <div class="file-meta">
+        СТАТУС: ЗАШИФРОВАН | УРОВЕНЬ ДОСТУПА: UNKNOWN
+      </div>
+      <div class="file-content">
+        ФАЙЛ НЕ МОЖЕТ БЫТЬ ПРОЧИТАН.
+        НАЖМИТЕ ДЛЯ ПОПЫТКИ РАСШИФРОВКИ.
+      </div>
+    </div>
+
+    <div id="secret-panel">
+      <div class="red">
+        ТРЕБУЕТСЯ КОД РАСШИФРОВКИ.
+      </div>
+      <div class="file-meta">
+        ПОДСКАЗКА: ИЩИ ВРЕМЯ, КОТОРОЕ ПОВТОРЯЕТСЯ.
+      </div>
+
+      <input
+        id="secret-code"
+        type="text"
+        placeholder="ВВЕДИТЕ КОД..."
+        autocomplete="off"
+      >
+
+      <button onclick="decryptFile()">
+        РАСШИФРОВАТЬ
+      </button>
+
+      <div id="secret-result"></div>
+
+      <div id="secret-document">
+FILE_013 // ВОССТАНОВЛЕН
+
+Если ты читаешь это, значит, ты добрался дальше,
+чем должны были позволить.
+
+Мы оставили тебе эти записи.
+Мы оставили тебе время.
+Мы оставили тебе цифры.
+
+Но ты всё ещё не понял главного.
+
+Ты не первый, кто открыл архив.
+
+Ты просто первый, кто вернулся.
+
+[КОНЕЦ ЗАПИСИ]
+
+P.S.
+
+НЕ ИЩИ НАС ВНУТРИ СИСТЕМЫ.
+
+МЫ СНАРУЖИ.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    END OF AVAILABLE RECORDS<br>
+    CONNECTION MAY NOT BE TERMINATED<br>
+    <span class="flicker">МЫ ПОМНИМ.</span>
+  </div>
+
+</div>
+
+<div id="system-message">
+  ARCHIVE SESSION // 6161
+</div>
+
+<script>
+function toggleFile(element) {
+  element.classList.toggle("open");
+}
+
+function openSecret() {
+  document.getElementById("secret-panel")
+    .classList.toggle("active");
+}
+
+function decryptFile() {
+  const input = document.getElementById("secret-code");
+  const result = document.getElementById("secret-result");
+  const documentBox = document.getElementById("secret-document");
+
+  const code = input.value.trim();
+
+  if (code === "0317") {
+    result.textContent =
+      "КОД ПРИНЯТ.\nВОССТАНОВЛЕНИЕ FILE_013...";
+
+    documentBox.classList.add("active");
+
+    input.disabled = true;
+    input.style.borderColor = "#527b52";
+
+    result.style.color = "#527b52";
+  } else {
+    result.textContent =
+      "ОШИБКА.\nНЕВЕРНЫЙ КОД.\nПОПРОБУЙ ЕЩЁ РАЗ.";
+
+    result.style.color = "#a21c1c";
+  }
+}
+
+document.getElementById("secret-code")
+  .addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      decryptFile();
+    }
+  });
+</script>
+
+</body>
+</html>
